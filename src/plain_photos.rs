@@ -23,13 +23,14 @@ pub(crate) fn run(basename: &str, files: &Vec<PathBuf>) -> Result<()> {
     // Rename files
     // TODO(lukehsiao): kind of weird to do this with `mv`...
     for (i, file) in files.iter().enumerate() {
-        let new = format!(
-            "{}/{basename}_{:04}.{}",
-            file.parent().unwrap().to_str().unwrap(),
+        let mut newfile = PathBuf::from(file);
+        newfile.pop();
+        newfile.push(format!(
+            "{basename}_{:04}.{}",
             i,
             file.extension().unwrap().to_str().unwrap()
-        );
-        cmd!(sh, "mv {file} {new}").run()?;
+        ));
+        cmd!(sh, "mv {file} {newfile}").run()?;
     }
 
     Ok(())
