@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Usage:
+#     _incr_version <old_version> <new_version
+#
+# Example:
+#     _incr_version v0.1.0 v0.1.1
+set -e
+
+# Update changelog
+if ! command -v git-cliff &> /dev/null
+then
+    echo "Please install git-cliff: https://github.com/orhun/git-cliff#installation"
+    exit
+fi
+
+git-cliff --unreleased --tag $2 --prepend CHANGELOG.md
+${EDITOR:-vi} CHANGELOG.md
+git commit CHANGELOG.md -m "docs(CHANGELOG): add entry for $2"
+
+# Update version
+cargo set-version ${2:1}
+git commit Cargo.toml -m "chore(release): bump version to $2"
