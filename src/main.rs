@@ -5,7 +5,7 @@ use clap::{Parser, Subcommand};
 use xshell::{cmd, Shell};
 
 #[derive(Parser)]
-#[clap(author, version, about)]
+#[clap(author, version, about, long_about = None)]
 #[clap(propagate_version = true)]
 struct Cli {
     #[clap(subcommand)]
@@ -16,7 +16,7 @@ struct Cli {
 enum Commands {
     /// Strip all Exif data from photos and rename as <basename>_{:04}.<ext>
     PlainPhotos {
-        #[clap(value_parser, required = true)]
+        #[clap(short, long, value_parser, required = true)]
         /// The basename to rename all files to
         basename: String,
         #[clap(value_parser, min_values = 1, required = true)]
