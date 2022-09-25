@@ -14,9 +14,9 @@ pub(crate) fn run(basename: &str, files: &Vec<PathBuf>) -> Result<()> {
     for (i, file) in files.iter().enumerate() {
         let new = format!(
             "{}/{basename}_{:04}.{}",
-            file.as_path().parent().unwrap().to_str().unwrap(),
+            file.parent().unwrap().to_str().unwrap(),
             i,
-            file.as_path().extension().unwrap().to_str().unwrap()
+            file.extension().unwrap().to_str().unwrap()
         );
         cmd!(sh, "mv {file} {new}").run()?;
     }
