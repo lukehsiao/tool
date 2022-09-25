@@ -3,6 +3,7 @@ use std::path::PathBuf;
 use anyhow::Result;
 use xshell::{cmd, Shell};
 
+/// Strips all EXIF data from the `files`, and renames then `<basename>_{:04}.<ext>`.
 pub(crate) fn run(basename: &str, files: &Vec<PathBuf>) -> Result<()> {
     let sh = Shell::new()?;
     // Strip all exif data using `exiv2`.
