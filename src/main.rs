@@ -3,6 +3,7 @@ use std::path::PathBuf;
 use anyhow::Result;
 use clap::{Parser, Subcommand};
 
+mod pdfembed;
 mod plain_photos;
 
 #[derive(Parser)]
@@ -15,6 +16,18 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Embed PDF fonts
+    PdfEmbed {
+        #[clap(short, long)]
+        /// Whether to overwrite the original files
+        overwrite: bool,
+        #[clap(short, long)]
+        /// Whether to show pdffont output to verify the embedding
+        verify: bool,
+        #[clap(value_parser, min_values = 1, required = true)]
+        /// The list of PDFs to embed fonts for
+        files: Vec<PathBuf>,
+    },
     /// Strip all Exif data from photos and rename as <basename>_{:04}.<ext>
     PlainPhotos {
         #[clap(short, long, value_parser, required = true)]
@@ -32,6 +45,13 @@ fn main() -> Result<()> {
     // You can check for the existence of subcommands, and if found use their
     // matches just as you would the top level cmd
     match &cli.command {
+        Commands::PdfEmbed {
+            overwrite,
+            verify,
+            files,
+        } => {
+            pdfembed::run(overwrite, verify, files)?;
+        }
         Commands::PlainPhotos { basename, files } => {
             plain_photos::run(basename, files)?;
         }
