@@ -1,6 +1,7 @@
 use anyhow::Result;
 use clap::{Parser, Subcommand};
 
+mod pdfcrop;
 mod pdfembed;
 mod plain_photos;
 
@@ -15,6 +16,7 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     PdfEmbed(pdfembed::PdfEmbed),
+    PdfCrop(pdfcrop::PdfCrop),
     PlainPhotos(plain_photos::PlainPhotos),
 }
 
@@ -24,6 +26,9 @@ fn main() -> Result<()> {
     // You can check for the existence of subcommands, and if found use their
     // matches just as you would the top level cmd
     match &cli.command {
+        Commands::PdfCrop(opts) => {
+            pdfcrop::run(opts.overwrite, &opts.files)?;
+        }
         Commands::PdfEmbed(opts) => {
             pdfembed::run(opts.overwrite, opts.verify, &opts.files)?;
         }
