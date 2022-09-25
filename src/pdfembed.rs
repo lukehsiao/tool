@@ -18,7 +18,7 @@ pub(crate) struct PdfEmbed {
     pub(crate) files: Vec<PathBuf>,
 }
 
-pub(crate) fn run(overwrite: bool, verify: bool, files: &Vec<PathBuf>) -> Result<()> {
+pub(crate) fn run(overwrite: bool, verify: bool, files: &[PathBuf]) -> Result<()> {
     let sh = Shell::new()?;
 
     // Embed fonts

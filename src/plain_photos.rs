@@ -15,7 +15,7 @@ pub(crate) struct PlainPhotos {
     pub(crate) files: Vec<PathBuf>,
 }
 
-pub(crate) fn run(basename: &str, files: &Vec<PathBuf>) -> Result<()> {
+pub(crate) fn run(basename: &str, files: &[PathBuf]) -> Result<()> {
     let sh = Shell::new()?;
     // Strip all exif data using `exiv2`.
     cmd!(sh, "exiv2 -d a -k {files...}").run()?;

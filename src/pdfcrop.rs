@@ -15,7 +15,7 @@ pub(crate) struct PdfCrop {
     pub(crate) files: Vec<PathBuf>,
 }
 
-pub(crate) fn run(overwrite: bool, files: &Vec<PathBuf>) -> Result<()> {
+pub(crate) fn run(overwrite: bool, files: &[PathBuf]) -> Result<()> {
     let sh = Shell::new()?;
 
     // Embed fonts
