@@ -6,7 +6,7 @@ use xshell::{cmd, Shell};
 /// Set the format.subjectprefix and sendemail.to of the local repository.
 pub(crate) struct GitEmail {
     #[clap(short, long)]
-    /// Set the local repo's patch subject prefix
+    /// Set the local repo's patch subject prefix. Defaults to repo name.
     pub(crate) prefix: Option<String>,
     #[clap(short, long, value_parser, min_values = 1, required = true, value_hint = ValueHint::EmailAddress)]
     /// List of emails to send to for `git-send-email`
@@ -18,6 +18,11 @@ pub(crate) fn run(prefix: &Option<String>, to: &[String]) -> Result<()> {
 
     if let Some(p) = prefix {
         let prefix = format!("PATCH {p}");
+        cmd!(sh, "git config format.subjectprefix {prefix}").run()?;
+    } else {
+        let toplevel = cmd!(sh, "git rev-parse --show-toplevel").read()?;
+        let reponame = cmd!(sh, "basename {toplevel}").read()?;
+        let prefix = format!("PATCH {reponame}");
         cmd!(sh, "git config format.subjectprefix {prefix}").run()?;
     }
 
