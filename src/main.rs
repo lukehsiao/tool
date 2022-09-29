@@ -9,12 +9,12 @@ mod plain_photos;
 mod semver;
 
 #[derive(Parser)]
-#[clap(author, version, about, long_about = None)]
-#[clap(propagate_version = true)]
+#[command(author("Luke Hsiao"), version, about, long_about = None)]
+#[command(propagate_version = true)]
 struct Cli {
-    #[clap(subcommand)]
+    #[command(subcommand)]
     command: Commands,
-    #[clap(flatten)]
+    #[command(flatten)]
     verbose: Verbosity<WarnLevel>,
 }
 

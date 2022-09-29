@@ -7,10 +7,10 @@ use xshell::{cmd, Shell};
 #[derive(Args)]
 /// Crop PDF file to just the contents
 pub(crate) struct PdfCrop {
-    #[clap(short, long)]
+    #[arg(short, long)]
     /// If false, a new file will be created with the `crop_` prefix
     pub(crate) overwrite: bool,
-    #[clap(value_parser, min_values = 1, required = true)]
+    #[arg(num_args(1..), required = true)]
     /// The list of PDFs to crop
     pub(crate) files: Vec<PathBuf>,
 }

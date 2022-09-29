@@ -7,10 +7,10 @@ use xshell::{cmd, Shell};
 #[derive(Args)]
 /// Strip all Exif data from photos and rename as <basename>_{:04}.<ext>
 pub(crate) struct PlainPhotos {
-    #[clap(short, long, value_parser, required = true)]
+    #[arg(short, long, required = true)]
     /// The basename to rename all files to
     pub(crate) basename: String,
-    #[clap(value_parser, min_values = 1, required = true)]
+    #[arg(num_args(1..), required = true)]
     /// The list of images to string Exif data from and rename
     pub(crate) files: Vec<PathBuf>,
 }

@@ -5,11 +5,11 @@ use xshell::{cmd, Shell};
 #[derive(Args)]
 /// Set the format.subjectprefix and sendemail.to of the local repository.
 pub(crate) struct GitEmail {
-    #[clap(short, long)]
+    #[arg(short, long)]
     /// Set the local repo's patch subject prefix. Defaults to repo name.
     pub(crate) prefix: Option<String>,
-    #[clap(short, long, value_parser, min_values = 1, required = true, value_hint = ValueHint::EmailAddress)]
-    /// List of emails to send to for `git-send-email`
+    #[arg(short, long, num_args(1..), required = true, value_hint = ValueHint::EmailAddress)]
+    /// List of comma-separated emails to send to for `git-send-email`
     pub(crate) to: Vec<String>,
 }
 

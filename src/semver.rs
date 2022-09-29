@@ -16,9 +16,9 @@ use xshell::{cmd, Shell};
 ///
 /// Refs: https://drewdevault.com/2019/10/12/how-to-fuck-up-releases.html
 pub(crate) struct Semver {
-    #[clap(arg_enum, value_parser)]
-    /// How to bump the version number (major/minor/patch), or bump to a specific version (e.g.,
-    /// "v0.1.1")
+    #[arg(required = true)]
+    /// How to bump the version number ([major | minor | patch]), or bump to a specific version
+    /// (e.g., "v0.1.1")
     pub(crate) target: String,
 }
 

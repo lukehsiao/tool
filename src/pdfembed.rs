@@ -7,13 +7,13 @@ use xshell::{cmd, Shell};
 #[derive(Args)]
 /// Embed PDF fonts
 pub(crate) struct PdfEmbed {
-    #[clap(short, long)]
+    #[arg(short, long)]
     /// If false, a new file will be created with the `emb_` prefix
     pub(crate) overwrite: bool,
-    #[clap(short, long)]
+    #[arg(short, long)]
     /// Whether to show pdffont output to verify the embedding
     pub(crate) verify: bool,
-    #[clap(value_parser, min_values = 1, required = true)]
+    #[arg(num_args(1..), required = true)]
     /// The list of PDFs to embed fonts for
     pub(crate) files: Vec<PathBuf>,
 }
