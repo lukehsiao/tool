@@ -41,7 +41,7 @@ fn main() -> Result<()> {
             pdfcrop::run(opts.overwrite, &opts.files)?;
         }
         Commands::PdfEmbed(opts) => {
-            pdfembed::run(opts.overwrite, opts.verify, &opts.files)?;
+            pdfembed::run(opts.overwrite, &opts.files)?;
         }
         Commands::PlainPhotos(opts) => {
             plain_photos::run(&opts.basename, &opts.files)?;
