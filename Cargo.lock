@@ -401,6 +401,8 @@ dependencies = [
  "duct",
  "env_logger",
  "log",
+ "once_cell",
+ "regex",
  "semver",
  "tempfile",
  "xshell",

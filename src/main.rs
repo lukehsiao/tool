@@ -2,11 +2,7 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 use clap_verbosity_flag::{Verbosity, WarnLevel};
 
-mod gitemail;
-mod pdfcrop;
-mod pdfembed;
-mod plain_photos;
-mod semver;
+use tool::{gitemail, pdfcrop, pdfembed, plain_photos, semver};
 
 #[derive(Parser)]
 #[command(author("Luke Hsiao"), version, about, long_about = None)]
@@ -56,4 +52,14 @@ fn main() -> Result<()> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod test {
+    use crate::*;
+    #[test]
+    fn verify_app() {
+        use clap::CommandFactory;
+        Cli::command().debug_assert()
+    }
 }

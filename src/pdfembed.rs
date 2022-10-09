@@ -6,19 +6,19 @@ use xshell::{cmd, Shell};
 
 #[derive(Args)]
 /// Embed PDF fonts
-pub(crate) struct PdfEmbed {
+pub struct PdfEmbed {
     #[arg(short, long)]
     /// If false, a new file will be created with the `emb_` prefix
-    pub(crate) overwrite: bool,
+    pub overwrite: bool,
     #[arg(short, long)]
     /// Whether to show pdffont output to verify the embedding
-    pub(crate) verify: bool,
+    pub verify: bool,
     #[arg(num_args(1..), required = true)]
     /// The list of PDFs to embed fonts for
-    pub(crate) files: Vec<PathBuf>,
+    pub files: Vec<PathBuf>,
 }
 
-pub(crate) fn run(overwrite: bool, verify: bool, files: &[PathBuf]) -> Result<()> {
+pub fn run(overwrite: bool, verify: bool, files: &[PathBuf]) -> Result<()> {
     let sh = Shell::new()?;
 
     // Embed fonts

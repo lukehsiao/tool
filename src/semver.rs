@@ -15,14 +15,14 @@ use xshell::{cmd, Shell};
 /// `_incr_version` with two parameters, the old version, and the new version.
 ///
 /// Refs: https://drewdevault.com/2019/10/12/how-to-fuck-up-releases.html
-pub(crate) struct Semver {
+pub struct Semver {
     #[arg(required = true)]
     /// How to bump the version number ([major | minor | patch]), or bump to a specific version
     /// (e.g., "v0.1.1")
-    pub(crate) target: String,
+    pub target: String,
 }
 
-pub(crate) fn run(target: &str) -> Result<()> {
+pub fn run(target: &str) -> Result<()> {
     let sh = Shell::new()?;
 
     // Make sure we're on the right branch
@@ -65,7 +65,7 @@ pub(crate) fn run(target: &str) -> Result<()> {
             );
         }
     };
-    let next_version = format!("v{}", next_version.to_string());
+    let next_version = format!("v{}", next_version);
 
     // Grab shortlog
     let toplevel = cmd!(sh, "git rev-parse --show-toplevel").read()?;
