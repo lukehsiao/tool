@@ -9,6 +9,7 @@ readme = "README.md"
 license = "Apache-2.0 OR MIT"
 categories = ["command-line-utilities"]
 publish = false
+rust-version = "1.64"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
