@@ -2,7 +2,7 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 use clap_verbosity_flag::{Verbosity, WarnLevel};
 
-use tool::{gitemail, pdfcrop, pdfembed, plain_photos, semver};
+use tool::{gitemail, pdfcrop, pdfembed, plain_photos, semver, wifiqr};
 
 #[derive(Parser)]
 #[command(author("Luke Hsiao"), version, about, long_about = None)]
@@ -17,10 +17,11 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     GitEmail(gitemail::GitEmail),
-    PdfEmbed(pdfembed::PdfEmbed),
     PdfCrop(pdfcrop::PdfCrop),
+    PdfEmbed(pdfembed::PdfEmbed),
     PlainPhotos(plain_photos::PlainPhotos),
     Semver(semver::Semver),
+    WifiQR(wifiqr::WifiQR),
 }
 
 fn main() -> Result<()> {
@@ -48,6 +49,14 @@ fn main() -> Result<()> {
         }
         Commands::Semver(opts) => {
             semver::run(&opts.target)?;
+        }
+        Commands::WifiQR(opts) => {
+            wifiqr::run(
+                &opts.ssid,
+                &opts.password,
+                opts.authtype.as_str(),
+                &opts.location,
+            )?;
         }
     }
 

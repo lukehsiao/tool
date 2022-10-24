@@ -1,0 +1,30 @@
+\documentclass[final]{article}
+\usepackage[paperwidth=55mm,paperheight=85mm,tmargin=0.5cm,bmargin=0.2cm,hmargin=0.2cm,noheadfoot]{geometry}
+\usepackage{fontawesome}
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\setmainfont{Atkinson Hyperlegible}
+\setmonofont{Iosevka}
+\usepackage{qrcode}
+\pagenumbering{gobble}
+
+\begin{document}
+\begin{center}
+
+\vspace*{\fill}
+\section*{ {{ location }} }
+
+\qrcode[height=4.5cm]{WIFI:S:{{ ssid }};T:{{ authtype }};P:{{ password }};;}
+\vspace{0.2cm}
+
+\begin{LARGE}
+\setlength\tabcolsep{1.5pt}
+\begin{tabular}{cl}
+\faWifi & \texttt{ {{ ssid }} } \\
+\faKey & \texttt{ {{ password }} } \\
+\end{tabular}
+\end{LARGE}
+
+\vspace*{\fill}
+\end{center}
+\end{document}
