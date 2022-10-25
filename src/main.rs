@@ -51,12 +51,7 @@ fn main() -> Result<()> {
             semver::run(&opts.target)?;
         }
         Commands::WifiQR(opts) => {
-            wifiqr::run(
-                &opts.ssid,
-                &opts.password,
-                opts.authtype.as_str(),
-                &opts.location,
-            )?;
+            wifiqr::run(opts)?;
         }
     }
 

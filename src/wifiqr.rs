@@ -39,7 +39,7 @@ pub struct WifiQR {
     pub location: String,
 }
 
-pub fn run(ssid: &str, password: &str, authtype: &str, location: &str) -> Result<()> {
+pub fn run(opts: &WifiQR) -> Result<()> {
     let sh = Shell::new()?;
     let dir = tempdir()?;
 
@@ -50,10 +50,10 @@ pub fn run(ssid: &str, password: &str, authtype: &str, location: &str) -> Result
         let template = include_str!("data/wifi.tex");
         let mut context = tera::Context::new();
 
-        context.insert("password", password);
-        context.insert("ssid", ssid);
-        context.insert("authtype", authtype);
-        context.insert("location", location);
+        context.insert("password", &opts.password);
+        context.insert("ssid", &opts.ssid);
+        context.insert("authtype", opts.authtype.as_str());
+        context.insert("location", &opts.location);
         let output = Tera::one_off(template, &context, true)
             .with_context(|| format!("Failed to parse Tera template:\n{}", template))?;
         debug!("{output}");
