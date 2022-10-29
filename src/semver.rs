@@ -20,9 +20,12 @@ pub struct Semver {
     /// How to bump the version number ([major | minor | patch]), or bump to a specific version
     /// (e.g., "v0.1.1")
     pub target: String,
+    #[arg(short, long)]
+    /// Pre-populate tag with git-stats, rather than a normal shortlog
+    pub stats: bool,
 }
 
-pub fn run(target: &str) -> Result<()> {
+pub fn run(opts: &Semver) -> Result<()> {
     let sh = Shell::new()?;
 
     // Make sure we're on the right branch
@@ -49,7 +52,7 @@ pub fn run(target: &str) -> Result<()> {
     let latest_version = Version::parse(&latest_tag[1..])?;
 
     // Compute next version
-    let next_version = match target {
+    let next_version = match opts.target.as_str() {
         "major" => Version::new(latest_version.major + 1, 0, 0),
         "minor" => Version::new(latest_version.major, latest_version.minor + 1, 0),
         "patch" => Version::new(
@@ -61,7 +64,7 @@ pub fn run(target: &str) -> Result<()> {
         _ => {
             bail!(
                 "User-specified version should be of the form vX.X.X: {}",
-                target
+                opts.target
             );
         }
     };
@@ -71,8 +74,20 @@ pub fn run(target: &str) -> Result<()> {
     let toplevel = cmd!(sh, "git rev-parse --show-toplevel").read()?;
     let reponame = cmd!(sh, "basename {toplevel}").read()?;
     let shortlog = match latest_tag.as_str() {
-        "v0.0.0" => cmd!(sh, "git shortlog -e --no-merges HEAD").read()?,
-        tag => cmd!(sh, "git shortlog -e --no-merges {tag}..HEAD").read()?,
+        "v0.0.0" => {
+            if opts.stats {
+                cmd!(sh, "git stats HEAD").read()?
+            } else {
+                cmd!(sh, "git shortlog -e --no-merges HEAD").read()?
+            }
+        }
+        tag => {
+            if opts.stats {
+                cmd!(sh, "git stats {tag}..HEAD").read()?
+            } else {
+                cmd!(sh, "git shortlog -e --no-merges {tag}..HEAD").read()?
+            }
+        }
     };
     let mut shortlog_file = NamedTempFile::new()?;
     writeln!(shortlog_file, "{reponame} {}\n\n{}", next_version, shortlog)?;

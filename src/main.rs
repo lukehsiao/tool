@@ -48,7 +48,7 @@ fn main() -> Result<()> {
             plain_photos::run(&opts.basename, &opts.files)?;
         }
         Commands::Semver(opts) => {
-            semver::run(&opts.target)?;
+            semver::run(opts)?;
         }
         Commands::WifiQR(opts) => {
             wifiqr::run(opts)?;
