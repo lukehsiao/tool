@@ -2,7 +2,7 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 use clap_verbosity_flag::{Verbosity, WarnLevel};
 
-use tool::{gitemail, pdfcrop, pdfembed, plain_photos, semver, wifiqr};
+use tool::{gitemail, passgen, pdfcrop, pdfembed, plain_photos, semver, wifiqr};
 
 #[derive(Parser)]
 #[command(author("Luke Hsiao"), version, about, long_about = None)]
@@ -19,6 +19,7 @@ enum Commands {
     GitEmail(gitemail::GitEmail),
     PdfCrop(pdfcrop::PdfCrop),
     PdfEmbed(pdfembed::PdfEmbed),
+    PassGen(passgen::PassGen),
     PlainPhotos(plain_photos::PlainPhotos),
     Semver(semver::Semver),
     WifiQR(wifiqr::WifiQR),
@@ -37,6 +38,9 @@ fn main() -> Result<()> {
     match &cli.command {
         Commands::GitEmail(opts) => {
             gitemail::run(&opts.prefix, &opts.to)?;
+        }
+        Commands::PassGen(opts) => {
+            passgen::run(opts)?;
         }
         Commands::PdfCrop(opts) => {
             pdfcrop::run(opts.overwrite, &opts.files)?;

@@ -2,6 +2,7 @@ use log::info;
 use std::time::Instant;
 
 pub mod gitemail;
+pub mod passgen;
 pub mod pdfcrop;
 pub mod pdfembed;
 pub mod plain_photos;
