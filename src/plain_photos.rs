@@ -17,8 +17,9 @@ pub struct PlainPhotos {
 
 pub fn run(basename: &str, files: &[PathBuf]) -> Result<()> {
     let sh = Shell::new()?;
-    // Strip all exif data using `exiv2`.
-    cmd!(sh, "exiv2 -d a -k {files...}").run()?;
+    // Strip all metadata using `mat2`.
+    // Ref: https://0xacab.org/jvoisin/mat2
+    cmd!(sh, "mat2 --inplace {files...}").run()?;
 
     // Rename files
     // TODO(lukehsiao): kind of weird to do this with `mv`...
