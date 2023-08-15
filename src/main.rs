@@ -2,7 +2,7 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 use clap_verbosity_flag::{Verbosity, WarnLevel};
 
-use tool::{gitemail, passgen, pdfcrop, pdfembed, plain_photos, semver, wifiqr};
+use tool::{gitemail, passgen, pdfcrop, pdfembed, plain_photos, semver, vp9, wifiqr};
 
 #[derive(Parser)]
 #[command(author("Luke Hsiao"), version, about, long_about = None)]
@@ -23,6 +23,7 @@ enum Commands {
     PlainPhotos(plain_photos::PlainPhotos),
     Semver(semver::Semver),
     WifiQR(wifiqr::WifiQR),
+    Vp9(vp9::Vp9),
 }
 
 fn main() -> Result<()> {
@@ -56,6 +57,9 @@ fn main() -> Result<()> {
         }
         Commands::WifiQR(opts) => {
             wifiqr::run(opts)?;
+        }
+        Commands::Vp9(opts) => {
+            vp9::run(opts)?;
         }
     }
 

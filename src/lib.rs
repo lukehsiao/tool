@@ -7,6 +7,7 @@ pub mod pdfcrop;
 pub mod pdfembed;
 pub mod plain_photos;
 pub mod semver;
+pub mod vp9;
 pub mod wifiqr;
 
 #[macro_export]
