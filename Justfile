@@ -109,8 +109,3 @@ release target:
 	    f.flush()
 	    subprocess.run(["git", "tag", "-e", "-F", f.name, "-a", new_version])
 	    print(new_version)
-
-
-# Publish a new version on crates.io
-publish:
-	cargo publish
