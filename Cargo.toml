@@ -13,7 +13,7 @@ publish = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow = "1.0.93"
+anyhow = "1.0.96"
 clap = { version = "4.5.27", features = ["derive", "env", "wrap_help", "cargo"] }
 clap-verbosity-flag = "3.0.1"
 duct = "0.13.7"
