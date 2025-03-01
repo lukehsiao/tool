@@ -5,7 +5,7 @@ use clap::{Args, ValueEnum};
 use log::debug;
 use tempfile::tempdir;
 use tera::Tera;
-use xshell::{cmd, Shell};
+use xshell::{Shell, cmd};
 
 use crate::Section;
 

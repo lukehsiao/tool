@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use anyhow::Result;
 use clap::Args;
-use xshell::{cmd, Shell};
+use xshell::{Shell, cmd};
 
 #[derive(Args)]
 /// Strip all Exif data from photos and rename as <basename>_{:04}.<ext>

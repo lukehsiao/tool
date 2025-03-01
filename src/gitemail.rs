@@ -1,6 +1,6 @@
 use anyhow::Result;
-use clap::{builder::ValueHint, Args};
-use xshell::{cmd, Shell};
+use clap::{Args, builder::ValueHint};
+use xshell::{Shell, cmd};
 
 #[derive(Args)]
 /// Set the format.subjectprefix and sendemail.to of the local repository.

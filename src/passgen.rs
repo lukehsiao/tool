@@ -1,6 +1,6 @@
 use anyhow::Result;
 use clap::Args;
-use xshell::{cmd, Shell};
+use xshell::{Shell, cmd};
 
 #[derive(Args)]
 /// Generate a random password, like passwordstore.org

@@ -1,8 +1,8 @@
 use std::path::{Path, PathBuf};
 
-use anyhow::{bail, Result};
+use anyhow::{Result, bail};
 use clap::Args;
-use xshell::{cmd, Shell};
+use xshell::{Shell, cmd};
 
 #[derive(Args)]
 /// Encode the input video using 2-pass constant-quality VP9 to {output}.webm.
@@ -34,13 +34,7 @@ pub fn run(opts: &Vp9) -> Result<()> {
 ffmpeg {} -i '{}' -c:v libvpx-vp9 -row-mt 1 -b:v 0 -crf {} -pass 2 -c:a libopus '{}.webm'",
         opts.input.display(),
         opts.crf,
-        {
-            if opts.overwrite {
-                "-y"
-            } else {
-                "-n"
-            }
-        },
+        { if opts.overwrite { "-y" } else { "-n" } },
         opts.input.display(),
         opts.crf,
         opts.output

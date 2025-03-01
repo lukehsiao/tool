@@ -1,11 +1,11 @@
 use std::io::Write;
 
-use anyhow::{bail, Result};
+use anyhow::{Result, bail};
 use clap::Args;
 use log::warn;
 use semver::Version;
 use tempfile::NamedTempFile;
-use xshell::{cmd, Shell};
+use xshell::{Shell, cmd};
 
 #[derive(Args)]
 /// Script to help cut a new release of a project.
