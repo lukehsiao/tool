@@ -14,7 +14,7 @@ publish = false
 
 [dependencies]
 anyhow = "1.0.97"
-clap = { version = "4.5.32", features = ["derive", "env", "wrap_help", "cargo"] }
+clap = { version = "4.5.34", features = ["derive", "env", "wrap_help", "cargo"] }
 clap-verbosity-flag = "3.0.2"
 duct = "0.13.7"
 env_logger = "0.11.7"
