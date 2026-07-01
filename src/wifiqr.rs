@@ -1,10 +1,6 @@
-use std::{fs::File, io::Write};
-
-use anyhow::{Context, Result};
+use anyhow::Result;
 use clap::{Args, ValueEnum};
-use log::debug;
 use tempfile::tempdir;
-use tera::Tera;
 use xshell::{Shell, cmd};
 
 use crate::Section;
@@ -23,7 +19,7 @@ impl AuthType {
 }
 
 #[derive(Args)]
-/// Generate a PDF of a business-card-sized QR code for sharing WiFi credentials using LaTeX
+/// Generate a PDF of a business-card-sized QR code for sharing WiFi credentials using Typst
 pub struct WifiQR {
     #[arg(short, long)]
     /// The SSID of the wifi network.
@@ -43,33 +39,36 @@ pub fn run(opts: &WifiQR) -> Result<()> {
     let sh = Shell::new()?;
     let dir = tempdir()?;
 
-    // TODO(lukehsiao): check that fonts / tectonic are installed.
-
-    let _file = {
-        let _s = Section::new("Populating LaTeX template");
-        let template = include_str!("data/wifi.tex");
-        let mut context = tera::Context::new();
-
-        context.insert("password", &opts.password);
-        context.insert("ssid", &opts.ssid);
-        context.insert("authtype", opts.authtype.as_str());
-        context.insert("location", &opts.location);
-        let output = Tera::one_off(template, &context, true)
-            .with_context(|| format!("Failed to parse Tera template:\n{}", template))?;
-        debug!("{output}");
-
-        let file_path = dir.path().join("wifi.tex");
-        let mut file = File::create(file_path)?;
-        writeln!(file, "{}", output)?;
-        file
-    };
+    // TODO(lukehsiao): check that fonts / typst are installed.
 
     {
-        let _s = Section::new("Running tectonic");
-        let path = dir.path().join("wifi.tex");
-        cmd!(sh, "tectonic {path}").run()?;
-        let path = dir.path().join("wifi.pdf");
-        cmd!(sh, "mv {path} .").run()?;
+        let _s = Section::new("Writing Typst sources");
+        std::fs::write(dir.path().join("wifi.typ"), include_str!("data/wifi.typ"))?;
+        std::fs::write(
+            dir.path().join("wifi.svg"),
+            include_str!("data/lucide-wifi.svg"),
+        )?;
+        std::fs::write(
+            dir.path().join("key.svg"),
+            include_str!("data/lucide-key-round.svg"),
+        )?;
+    }
+
+    {
+        let _s = Section::new("Running typst");
+        let typ = dir.path().join("wifi.typ");
+        let root = dir.path();
+        // Credentials are passed as `sys.inputs` rather than substituted into the
+        // template, so values that look like Typst markup cannot be injected.
+        let ssid_in = format!("ssid={}", opts.ssid);
+        let pass_in = format!("password={}", opts.password);
+        let auth_in = format!("authtype={}", opts.authtype.as_str());
+        let loc_in = format!("location={}", opts.location);
+        cmd!(
+            sh,
+            "typst compile --root {root} --input {ssid_in} --input {pass_in} --input {auth_in} --input {loc_in} {typ} wifi.pdf"
+        )
+        .run()?;
         println!("File written to ./wifi.pdf");
     }
 
