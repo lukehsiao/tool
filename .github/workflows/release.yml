@@ -18,12 +18,12 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      # changesets/action pushes the release branch over HTTPS using the token
-      # that checkout persists, so credentials must stay available on this job.
+      # changesets/action pushes the release branch and tags through the GitHub
+      # API, so the checkout credentials are dead weight.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: false
       - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
         with:
           version: latest
@@ -39,9 +39,7 @@ jobs:
         id: changesets
         uses: changesets/action@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
         with:
-          version: just version
-          publish: just publish
-          commit: "chore(release): bump version"
-          title: "chore(release): bump version"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          version-script: just version
+          publish-script: just publish
+          commit-message: "chore(release): bump version"
+          pr-title: "chore(release): bump version"
