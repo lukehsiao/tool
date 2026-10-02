@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.2
+
+### Patch Changes
+
+- [`e25a220`](https://github.com/lukehsiao/tool/commit/e25a2201f57e2dbe342ee0f9827749471343cce1) - **fix**: `wifi-qr` now escapes `"` in the SSID and password, as the WiFi QR format requires, so scanners read credentials containing quotes exactly as typed.
+
+<pre>
+$ git-stats v0.1.1..v0.1.2
+Author           Commits  Changed Files  Insertions  Deletions  Net Δ
+dependabot[bot]       12             12         +22        -22      0
+Luke Hsiao             8             20        +483      -1053   -570
+Total                 20             32        +505      -1075   -570
+</pre>
+
 ## 0.1.1
 
 ### Patch Changes
