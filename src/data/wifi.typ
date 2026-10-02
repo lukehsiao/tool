@@ -18,9 +18,10 @@
 #let authtype = sys.inputs.at("authtype", default: "WPA2")
 #let location = sys.inputs.at("location", default: "")
 
-// Escape the chars the WiFi QR grammar treats as delimiters so SSIDs/passwords
-// containing them still scan correctly.
-#let esc(s) = s.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace(":", "\\:")
+// Escape the chars the WiFi QR grammar treats as delimiters, plus `"`, which
+// scanners read as quoting the value, so SSIDs/passwords containing them still
+// scan correctly.
+#let esc(s) = s.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace(":", "\\:").replace("\"", "\\\"")
 #let payload = "WIFI:S:" + esc(ssid) + ";T:" + authtype + ";P:" + esc(password) + ";;"
 
 // Shrink a line to fit within `width`, leaving it untouched when it already fits,
